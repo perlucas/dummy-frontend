@@ -44,9 +44,7 @@ class VoiceSourceEmitter extends TextEmitter {
                 this.listeners.forEach(listener => listener.notify(textToEmit));
             }
         };
-        // setInterval(emitText, 1000);
-        // this.recognition.start();
-        console.log(this.recognition);
+        setInterval(emitText, 200);
     }
 
     initializeVoiceRecognition() {
@@ -59,39 +57,38 @@ class VoiceSourceEmitter extends TextEmitter {
             );
             
             this.recognition = new SpeechRecognition();
-            this.recognition.lang = "en-US";
-            this.recognition.continuous = true;
-            this.recognition.interimResults = true;
-
+            this.recognition.lang = "es";
             
-            
-            [
-                'onaudiostart',
-                'onaudioend',
-                'onend',
-                'onerror',
-                'onnomatch',
-                'onresult',
-                'onsoundstart',
-                'onsoundend',
-                'onspeechend',
-                'onstart'
-               ].forEach((function(eventName) {
-                   this.recognition[eventName] = function(e) {
-                       console.log(eventName, e);
-                   };
+            // [
+            //     'onaudiostart',
+            //     'onaudioend',
+            //     'onend',
+            //     'onerror',
+            //     'onnomatch',
+            //     'onresult',
+            //     'onsoundstart',
+            //     'onsoundend',
+            //     'onspeechend',
+            //     'onstart'
+            //    ].forEach((function(eventName) {
+            //        this.recognition[eventName] = function(e) {
+            //            console.log(eventName, e);
+            //        };
                    
-               }).bind(this));
+            //    }).bind(this));
 
-               this.recognition.addEventListener("result", (event) => console.log(event));
+            // this.recognition.addEventListener("result", (event) => console.log(event));
 
-               setTimeout(() => this.recognition.start(), 5000);
-            // this.recognition.onresult = (event) => {
-            //     console.log(event);
-            //     let currentIndex = event.resultIndex;
-            //     let transcript = event.results[currentIndex][0].transcript;
-            //     this.queuedTexts.push(transcript);
-            // };
+            this.recognition.onresult = (event) => {
+                console.log(event);
+                let currentIndex = event.resultIndex;
+                let transcript = event.results[currentIndex][0].transcript;
+                this.queuedTexts.push(transcript);
+            };
+
+            this.recognition.onend = () => this.recognition.start();
+
+            this.recognition.start();
         }
         catch(e) {
             alert("Your browser doesn't support voice recognition!");
