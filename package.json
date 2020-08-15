@@ -1,0 +1,14 @@
+{
+  "name": "dummy-frontend",
+  "version": "1.0.0",
+  "description": "Simple frontend projects for funny time",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "artyom.js": "^1.0.6",
+    "speech-polyfill": "0.0.5"
+  }
+}

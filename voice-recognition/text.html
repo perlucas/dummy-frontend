@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <script src="../node_modules/speech-polyfill/dist/speech-polyfill.min.js"></script> -->
+    <!-- <script src="../node_modules/artyom.js/build/artyom.window.min.js"></script> -->
+    <script>
+        var recognizer;
+        
+        document.addEventListener("DOMContentLoaded", () => {
+
+            let SpeechRecognition = (
+                window.SpeechRecognition || 
+                window.webkitSpeechRecognition || 
+                window.mozSpeechRecognition || 
+                window.msSpeechRecognition
+            );
+            
+            
+            recognizer = new SpeechRecognition();
+            // recognizer.interimResults = false;
+            // recognizer.continuous = true;
+            recognizer.lang = "en";
+            // recognizer.maxAlternatives = 1;
+
+            [
+                'onaudiostart',
+                'onaudioend',
+                'onend',
+                'onerror',
+                'onnomatch',
+                'onresult',
+                'onsoundstart',
+                'onsoundend',
+                'onspeechend',
+                'onstart'
+               ].forEach((function(eventName) {
+                   recognizer[eventName] = function(e) {
+                       console.log(eventName, e);
+                   };
+                }));
+
+
+            // recognizer.onresult = e => console.log(e.results[0][0].transcript);
+            // recognizer.onerror = (event) => console.log('error', event);
+            recognizer.start();
+            
+        });
+
+    </script>
+</body>
+</html>
